@@ -30,14 +30,27 @@ authEmailPassButton.addEventListener("click", function() {
     firebase
         .auth()
         .signInWithEmailAndPassword(emailInput.value, passwordInput.value)
-        .then((authData) => {
-            console.log(authData);
+        .then (function(x){
             displayName.innerHTML = 'Bem vindo, ' + emailInput.value;
-            alert('Autenticado ' + emailInput.value);
-        }).catch( (_error)=> {
+            alert('Autenticado ' + emailInput.value); 
+            
+        })
+        .catch( function(error) {
+            var erroCode = error.code;
+            var erroMessage = error.message;
             console.error(error.code);
             console.error(error.message);
-            alert("Falha ao autenticar, verifique o erro no console!");
+
+            switch(erroCode) {
+               case 'auth/wrong-password':
+                 alert("Falha ao autenticar, verifique o erro no console!"); 
+                 break;
+               case 'auth/invalid-email':
+                 alert("Falha ao autenticar 2 , verifique o erro no console!"); 
+                 break;
+           }
+            console.log(error);
+            alert(erroCode);
         });
 
 });
