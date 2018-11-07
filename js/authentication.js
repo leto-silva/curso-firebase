@@ -30,27 +30,16 @@ authEmailPassButton.addEventListener("click", function() {
     firebase
         .auth()
         .signInWithEmailAndPassword(emailInput.value, passwordInput.value)
-        .then (function(x){
+        .then (function(result){
+            console.log(result);
             displayName.innerHTML = 'Bem vindo, ' + emailInput.value;
             alert('Autenticado ' + emailInput.value); 
             
         })
         .catch( function(error) {
-            var erroCode = error.code;
-            var erroMessage = error.message;
             console.error(error.code);
             console.error(error.message);
-
-            switch(erroCode) {
-               case 'auth/wrong-password':
-                 alert("Falha ao autenticar, verifique o erro no console!"); 
-                 break;
-               case 'auth/invalid-email':
-                 alert("Falha ao autenticar 2 , verifique o erro no console!"); 
-                 break;
-           }
-            console.log(error);
-            alert(erroCode);
+            alert('Falha em autenticar, verifique o console!');
         });
 
 });
@@ -62,11 +51,32 @@ logOutButton.addEventListener("click", function(){
         .then( function() {
             displayName.innerText ="Você não está autenticado";
             alert("você se deslogou");
-         }), function(error) {
+         }, function(error) {
             console.error(error);
-        }
+        });
+
+});
+
+authAnonymouslyButton.addEventListener("click", function(){
+    firebase
+        .auth()
+        .signInAnonymously()
+        .then(function (result){
+            console.log(result);
+            displayName.innerText = 'Bem vindo, desconhecido!';
+            alert('Autenticado anonimamente!');
+        })
+        .catch(function(error) {
+            console.error(error.code);
+            console.error(error.message);
+            alert('Falha em autenticar, verifique o erro no console!');
+        })
+
+
 
 })
+
+
 
 
 
