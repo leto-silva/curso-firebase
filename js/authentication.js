@@ -72,9 +72,36 @@ authAnonymouslyButton.addEventListener("click", function(){
             alert('Falha em autenticar, verifique o erro no console!');
         })
 
+});
 
+// autenticação github
+authGitHubButton.addEventListener("click", function(){
+    // Providers
+    var provider = new firebase.auth.GithubAuthProvider();
+    signIn(provider);
+});
 
-})
+// autenticação google
+authGoogleButton.addEventListener("click", function(){
+    // Providers
+    var provider = new firebase.auth.GoogleAuthProvider();
+    signIn(provider);
+});
+
+function signIn(provider){
+    firebase.auth()
+        .signInWithRedirect(provider)
+        //.signInWithPopup(provider);
+        .then( function(result) {
+           console.log(result);
+           //var token = result.credential.accessToken;
+           displayName.innerText = 'Bem vindo, ' + result.user.displayName;
+        }).catch( function(error) {
+            console.log(error);
+            alert('Falha na autenticação');
+        })
+}
+
 
 
 
