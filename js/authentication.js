@@ -88,13 +88,27 @@ authGoogleButton.addEventListener("click", function(){
     signIn(provider);
 });
 
+// autenticação facebook
+authFacebookButton.addEventListener("click", function(){
+    //providers
+    var provider = new firebase.auth.FacebookAuthProvider();
+    signIn(provider);
+});
+
+authTwitterButton.addEventListener("click", function(){
+    //providers
+    var provider = new firebase.auth.TwitterAuthProvider();
+    signIn(provider);
+});
+
+
+
 function signIn(provider){
     firebase.auth()
-        .signInWithRedirect(provider)
-        //.signInWithPopup(provider);
+        .signInWithPopup(provider)
         .then( function(result) {
            console.log(result);
-           //var token = result.credential.accessToken;
+           var token = result.credential.accessToken;
            displayName.innerText = 'Bem vindo, ' + result.user.displayName;
         }).catch( function(error) {
             console.log(error);
